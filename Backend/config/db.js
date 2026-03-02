@@ -1,20 +1,16 @@
-require("dotenv").config({ path: "../.env" });
 const mongoose = require("mongoose");
 
-let MONGO_DB = {
-  production: { url: process.env.MONGODB_PROD_URL, type: "Atlas" },
-  development: { url: process.env.MONGODB_DEV_URL, type: "Compass" },
-};
-
-let environment = process.env.ENVIRONMENT;
+const mongoURL =
+  process.env.MONGODB_DEV_URL ||
+  "mongodb+srv://priyaayadav_50:cabBooking90254@cluster0.r30g2io.mongodb.net/Cab_Booking?retryWrites=true&w=majority";
 
 mongoose
-  .connect(MONGO_DB[environment].url)
+  .connect(mongoURL)
   .then(() => {
-    console.log("Connected to Mongo DB", MONGO_DB[environment].type);
+    console.log("Connected to MongoDB successfully");
   })
-  .catch(() => {
-    console.log("Failed to connect to MongoDB");
+  .catch((err) => {
+    console.log("MongoDB connection error:", err);
   });
 
 module.exports = mongoose.connection;
